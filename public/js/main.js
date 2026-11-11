@@ -378,6 +378,12 @@ function closeProductModal(pushHistory = true) {
 
 // رسم محتوى النافذة
 function renderProductModal(p) {
+  // تصفير السعر الإجمالي عند فتح منتج جديد
+  const totalEl = document.getElementById('pmTotalPrice');
+  if (totalEl) {
+    totalEl.textContent = '';
+    totalEl.style.display = 'none';
+  }
   pmLoading.classList.add('hidden');
   pmError.classList.add('hidden');
   pmContent.classList.remove('hidden');
