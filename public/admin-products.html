@@ -365,11 +365,20 @@
         let hasImage = 'لا';
         
         try {
-          let res = await fetch('/images/products/' + p.id + '.webp', { method: 'HEAD' });
-          if (res.ok) { hasImage = 'نعم'; }
-          else {
-            res = await fetch('/images/products/' + p.id + '.jpg', { method: 'HEAD' });
-            if (res.ok) hasImage = 'نعم';
+          // نستخدم fetch لفحص وجود الصورة. إذا أعاد السيرفر صورة، فهي موجودة.
+          // ملاحظة: إذا كانت الصورة غير موجودة، خوادم Cloudflare قد تعيد صفحة 404 أو index.html.
+          const res = await fetch('/images/products/' + p.id + '.webp');
+          const contentType = res.headers.get('content-type');
+          
+          if (res.ok && contentType && contentType.includes('image')) {
+             hasImage = 'نعم';
+          } else {
+             // فحص صيغة jpg
+             const resJpg = await fetch('/images/products/' + p.id + '.jpg');
+             const typeJpg = resJpg.headers.get('content-type');
+             if (resJpg.ok && typeJpg && typeJpg.includes('image')) {
+                 hasImage = 'نعم';
+             }
           }
         } catch (e) { /* تجاهل */ }
 
