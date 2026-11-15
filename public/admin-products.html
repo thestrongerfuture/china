@@ -350,11 +350,21 @@
       } catch (e) { alert('❌ ' + e.message); }
     };
 
+    // ============================================================
+    // التصدير مع عمود الصورة picture
+    // ============================================================
     $('#exportProductsBtn').onclick = () => {
       if (allProducts.length === 0) { alert('❌ لا توجد منتجات لتصديرها'); return; }
-      const headers = ['id', 'name', 'brand', 'category', 'stock', 'price', 'description'];
+      
+      // إضافة عمود picture
+      const headers = ['id', 'name', 'brand', 'category', 'stock', 'price', 'description', 'picture'];
       const csvRows = [headers.join(',')];
+      
       allProducts.forEach(p => {
+        // نعتبر أن المنتج يمتلك صورة إذا كان حقل image_url يحتوي على رابط
+        // أو إذا كانت الصورة موجودة (افتراضياً نضع "لا" إذا كان الحقل فارغاً)
+        const hasPicture = p.image_url ? 'نعم' : 'لا';
+
         const row = [
           p.id,
           `"${(p.name || '').replace(/"/g, '""')}"`,
@@ -362,10 +372,12 @@
           `"${(p.category || '').replace(/"/g, '""')}"`,
           p.stock,
           p.price,
-          `"${(p.description || '').replace(/"/g, '""')}"`
+          `"${(p.description || '').replace(/"/g, '""')}"`,
+          `"${hasPicture}"` // القيمة هنا
         ];
         csvRows.push(row.join(','));
       });
+      
       const csvContent = csvRows.join('\n');
       const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
