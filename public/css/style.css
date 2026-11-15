@@ -2228,3 +2228,19 @@ div:has(> #pmStock) {
         margin: 10px auto 0 auto !important;
     }
 }
+
+/* ============================================================
+   تصحيح ترتيب الشريط العلوي في الموبايل (الساعة تحت الأزرار)
+   ============================================================ */
+@media (max-width: 768px) {
+    .header-actions {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+    .header-clock {
+        flex-basis: 100% !important; /* الساعة تأخذ سطراً كاملاً وتنزل للأسفل */
+        order: 99 !important;
+        margin: 10px auto 0 auto !important;
+    }
+}
