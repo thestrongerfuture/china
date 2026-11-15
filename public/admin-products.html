@@ -350,20 +350,28 @@
       } catch (e) { alert('❌ ' + e.message); }
     };
 
-    // ============================================================
     // التصدير مع عمود الصورة picture
-    // ============================================================
-    $('#exportProductsBtn').onclick = () => {
+    $('#exportProductsBtn').onclick = async () => {
       if (allProducts.length === 0) { alert('❌ لا توجد منتجات لتصديرها'); return; }
       
-      // إضافة عمود picture
+      const btn = document.getElementById('exportProductsBtn');
+      btn.textContent = '⏳ جاري فحص الصور...';
+      btn.disabled = true;
+
       const headers = ['id', 'name', 'brand', 'category', 'stock', 'price', 'description', 'picture'];
       const csvRows = [headers.join(',')];
       
-      allProducts.forEach(p => {
-        // نعتبر أن المنتج يمتلك صورة إذا كان حقل image_url يحتوي على رابط
-        // أو إذا كانت الصورة موجودة (افتراضياً نضع "لا" إذا كان الحقل فارغاً)
-        const hasPicture = p.image_url ? 'نعم' : 'لا';
+      for (let p of allProducts) {
+        let hasImage = 'لا';
+        
+        try {
+          let res = await fetch('/images/products/' + p.id + '.webp', { method: 'HEAD' });
+          if (res.ok) { hasImage = 'نعم'; }
+          else {
+            res = await fetch('/images/products/' + p.id + '.jpg', { method: 'HEAD' });
+            if (res.ok) hasImage = 'نعم';
+          }
+        } catch (e) { /* تجاهل */ }
 
         const row = [
           p.id,
@@ -373,10 +381,10 @@
           p.stock,
           p.price,
           `"${(p.description || '').replace(/"/g, '""')}"`,
-          `"${hasPicture}"` // القيمة هنا
+          `"${hasImage}"`
         ];
         csvRows.push(row.join(','));
-      });
+      }
       
       const csvContent = csvRows.join('\n');
       const blob = new Blob(["\ufeff" + csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -385,6 +393,9 @@
       link.download = `products_export_${new Date().toISOString().split('T')[0]}.csv`;
       link.click();
       URL.revokeObjectURL(link.href);
+
+      btn.textContent = '📤 تصدير منتجات المتجر إلى ملف CSV';
+      btn.disabled = false;
     };
 
     const csvFileInput = $('#csvFileInput');
