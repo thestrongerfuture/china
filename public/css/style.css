@@ -2337,3 +2337,39 @@ div:has(> #pmStock) {
         font-size: 0.75rem !important;
     }
 }
+
+/* ============================================================
+   📱 ترتيب الشريط العلوي في الموبايل (الساعة كبسولة صغيرة)
+   ============================================================ */
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    /* 1. الشعار أولاً */
+    .brand {
+        order: 1 !important;
+        margin-bottom: 5px !important;
+    }
+
+    /* 2. الأزرار في المنتصف */
+    .header-actions {
+        order: 2 !important;
+        justify-content: center !important;
+        width: 100% !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* 3. الساعة في الأسفل، بحجم المحتوى فقط، ومتوسطة */
+    .header-clock {
+        order: 3 !important;
+        display: inline-flex !important;
+        width: max-content !important; /* العرض على قدر المحتوى */
+        margin: 10px auto 0 auto !important; /* توسيط */
+        font-size: 0.75rem !important;
+    }
+}
