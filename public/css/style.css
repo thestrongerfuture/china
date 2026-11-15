@@ -2215,3 +2215,16 @@ div:has(> #pmStock) {
 #pmStock {
   display: none !important;
 }
+/* ============================================================
+   تصحيح ترتيب الشريط العلوي في الموبايل (الساعة تحت الأزرار)
+   ============================================================ */
+@media (max-width: 768px) {
+    .header-actions {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .header-clock {
+        order: 2 !important; /* ترتيب الساعة ليكون في الأسفل */
+        margin: 10px auto 0 auto !important;
+    }
+}
