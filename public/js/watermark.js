@@ -1,9 +1,12 @@
 (function () {
-  const ALLOWED_PAGES = [
-    "/",
-    "/index.html",
-    "/new.html",
-    "/offers.html"
+  const ALLOWED_SLUGS = [
+    "",
+    "index",
+    "index.html",
+    "new",
+    "new.html",
+    "offers",
+    "offers.html"
   ];
 
   function isAllowedPage() {
@@ -12,10 +15,14 @@
       ? rawPath.slice(0, -1)
       : rawPath;
 
-    return ALLOWED_PAGES.some((page) => {
-      const target = page.toLowerCase();
-      return cleanPath === target || cleanPath.endsWith(target);
-    });
+    if (cleanPath === "" || cleanPath === "/") {
+      return true;
+    }
+
+    const segments = cleanPath.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1] || "";
+
+    return ALLOWED_SLUGS.includes(lastSegment);
   }
 
   function removeWatermark() {
