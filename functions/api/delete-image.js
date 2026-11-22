@@ -1,5 +1,5 @@
-const GITHUB_OWNER = "monqezaleskaf";
-const GITHUB_REPO = "tsf";
+const GITHUB_OWNER = "thestrongerfuture";
+const GITHUB_REPO = "china";
 const GITHUB_BRANCH = "main";
 const STORE_LOGO_KEY = "Logo.png";
 const WATERMARK_IMAGE_KEY = "Watermark.png";

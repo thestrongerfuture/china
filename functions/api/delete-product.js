@@ -1,6 +1,6 @@
 ﻿
-const GITHUB_OWNER = "monqezaleskaf";
-const GITHUB_REPO = "tsf";
+const GITHUB_OWNER = "thestrongerfuture";
+const GITHUB_REPO = "china";
 const GITHUB_BRANCH = "main";
 
 export async function onRequest(context) {
