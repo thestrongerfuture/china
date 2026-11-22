@@ -17,7 +17,10 @@ export async function onRequestGet({ params }) {
     if (
       joinedPath === "Logo.png" ||
       joinedPath === "public/images/Logo.png" ||
-      joinedPath === "store/Logo.png"
+      joinedPath === "store/Logo.png" ||
+      joinedPath === "Watermark.png" ||
+      joinedPath === "public/images/Watermark.png" ||
+      joinedPath === "store/Watermark.png"
     ) {
       targetPath = joinedPath;
       expectedMime = "image/png";
