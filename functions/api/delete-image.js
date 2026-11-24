@@ -1,7 +1,6 @@
 const GITHUB_OWNER = "thestrongerfuture";
 const GITHUB_REPO = "china";
-const GITHUB_BRANCH = "main";
-const STORE_LOGO_KEY = "Logo.png";
+const GITHUB_BRANCH = "main";const STORE_LOGO_KEY = "Logo.png";
 const WATERMARK_IMAGE_KEY = "Watermark.png";
 
 export async function onRequestPost({ request, env }) {

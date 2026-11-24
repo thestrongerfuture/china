@@ -2,7 +2,6 @@
 const GITHUB_OWNER = "thestrongerfuture";
 const GITHUB_REPO = "china";
 const GITHUB_BRANCH = "main";
-
 export async function onRequest(context) {
   const { env, request } = context;
 
