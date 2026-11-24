@@ -443,10 +443,19 @@ function renderProductModal(p) {
   pmError.classList.add('hidden');
   pmContent.classList.remove('hidden');
 
+  // تنسيق محتوى النافذة بشكل متناسق وملموم
+  if (pmContent) {
+    pmContent.style.display = 'flex';
+    pmContent.style.flexDirection = 'column';
+    pmContent.style.gap = '6px';
+    pmContent.style.textAlign = 'right';
+  }
+
   const maxQty = Math.max(1, p.stock || 1);
   const outOfStock = (p.stock || 0) <= 0;
 
-  document.getElementById('pmId').textContent = `#${p.id}`;
+  const pmIdEl = document.getElementById('pmId');
+  if (pmIdEl) pmIdEl.textContent = `#${p.id}`;
   document.getElementById('pmName').textContent = p.name;
   const pmDesc = document.getElementById('pmDesc');
   if (p.description && p.description.trim() !== '') { pmDesc.textContent = p.description; pmDesc.style.display = 'block'; } else { pmDesc.style.display = 'none'; }
@@ -468,9 +477,16 @@ function renderProductModal(p) {
     const imgWrap = document.querySelector('.pm-image-wrap');
     if (imgWrap && img) {
       const freshWrap = imgWrap.cloneNode(true);
+      freshWrap.style.height = '52vh';
+      freshWrap.style.minHeight = '220px';
+      freshWrap.style.width = '100%';
       imgWrap.parentNode.replaceChild(freshWrap, imgWrap);
       const freshImg = freshWrap.querySelector('img');
       if (freshImg) {
+        freshImg.style.width = '100%';
+        freshImg.style.height = '100%';
+        freshImg.style.maxHeight = '100%';
+        freshImg.style.objectFit = 'contain';
         freshImg.onerror = () => {
           freshImg.outerHTML = '<div class="product-placeholder">🛍️</div>';
         };
