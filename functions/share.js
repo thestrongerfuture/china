@@ -119,12 +119,13 @@ export async function onRequestGet(context) {
       const safeId = encodeURIComponent(String(product.id || "").trim());
       const fallbackCandidates = safeId
         ? [
-            `/images/products/${safeId}.jpg`,
-            `/images/products/${safeId}.png`,
+            `/api/image/products/${safeId}.webp`,
+            `/api/image/products/${safeId}.jpg`,
+            `/api/image/products/${safeId}.jpeg`,
+            `/api/image/products/${safeId}.png`,
             `/images/products/${safeId}.webp`,
-            `/images/${safeId}.jpg`,
-            `/images/${safeId}.png`,
-            `/images/${safeId}.webp`
+            `/images/products/${safeId}.jpg`,
+            `/images/products/${safeId}.png`
           ]
         : [];
 
