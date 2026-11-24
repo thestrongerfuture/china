@@ -225,7 +225,7 @@
     }
 
     function openShareModalForOffer(offer) {
-      const url = `${location.origin}/offers.html#offer-${offer.id}`;
+      const url = `${location.origin}/offers.html?offer=${encodeURIComponent(offer.id)}#offer-${offer.id}`;
       const text = `شاهد العرض "${offer.title}" على متجرنا`;
       document.getElementById('shareWa').href = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
       document.getElementById('shareFb').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
@@ -268,6 +268,7 @@
         }
 
         renderOffersGrid(cachedOffers);
+        focusSharedOfferIfPresent();
       } catch (err) {
         document.getElementById('loading').textContent = '❌ خطأ: ' + err.message;
       }
@@ -383,6 +384,23 @@
 
         grid.appendChild(card);
       });
+    }
+
+    function focusSharedOfferIfPresent() {
+      const params = new URLSearchParams(location.search);
+      const queryOfferId = String(params.get('offer') || '').trim();
+      const hashMatch = String(location.hash || '').match(/^#offer-(.+)$/);
+      const targetOfferId = queryOfferId || (hashMatch ? hashMatch[1] : '');
+      if (!targetOfferId) return;
+
+      const card = document.getElementById(`offer-${targetOfferId}`);
+      if (!card) return;
+
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.boxShadow = '0 0 0 3px var(--primary), 0 8px 24px rgba(0,0,0,0.12)';
+      setTimeout(() => {
+        card.style.boxShadow = '';
+      }, 2500);
     }
 
     document.addEventListener('click', (e) => {
