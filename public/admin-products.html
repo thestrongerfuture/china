@@ -1587,9 +1587,29 @@
         "picture"
       ];
 
+      async function hasProductPicture(product) {
+        const directUrl = String(product?.image_url || "").trim();
+        const legacyImg = String(product?.image || "").trim();
+        if (directUrl || legacyImg) return true;
+
+        const pid = Number(product?.id);
+        if (!Number.isFinite(pid) || pid <= 0) return false;
+
+        try {
+          const res = await fetch(`/api/image/products/${pid}.webp`, {
+            method: "HEAD",
+            cache: "no-store"
+          });
+          return res.ok;
+        } catch {
+          return false;
+        }
+      }
+
       const csvRows = [headers.join(",")];
 
       for (const product of allProducts) {
+        const hasPic = await hasProductPicture(product);
         const row = [
           product.id,
           `"${String(product.name || "").replace(/"/g, '""')}"`,
@@ -1598,7 +1618,7 @@
           product.stock ?? 0,
           product.price ?? 0,
           `"${String(product.description || "").replace(/"/g, '""')}"`,
-          `"${product.image_url ? "نعم" : "لا"}"`
+          `"${hasPic ? "نعم" : "لا"}"`
         ];
 
         csvRows.push(row.join(","));
